@@ -1,0 +1,123 @@
+{
+  "apiVersion" : "1.4",
+  "swaggerVersion" : "1.2",
+  "basePath" : "/api",
+  "resourcePath" : "/users",
+  "apis" : [ {
+    "path" : "/users",
+    "operations" : [ {
+      "method" : "POST",
+      "summary": "Create a user.",
+      "nickname" : "create",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "User",
+        "paramType" : "body",
+        "name" : "user",
+        "required" : true
+      } ]
+    }, {
+      "method" : "GET",
+      "summary" : "Get a list containing all users.",
+      "nickname" : "read",
+      "type" : "array",
+      "items" : {
+        "$ref" : "User"
+      }
+    } ]
+  }, {
+    "path" : "/users/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "summary": "Get the user with the specified id.",
+      "nickname" : "read",
+      "type" : "User",
+      "parameters" : [ {
+        "type" : "string",
+        "format" : "uuid",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ]
+    }, {
+      "method" : "PUT",
+      "summary": "Update a user.",
+      "nickname" : "update",
+      "type" : "User",
+      "parameters" : [ {
+        "type" : "string",
+        "format" : "uuid",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "User",
+        "paramType" : "body",
+        "name" : "user",
+        "required" : true
+      } ]
+    }, {
+      "method" : "DELETE",
+      "summary": "Delete a user.",
+      "nickname" : "delete",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "format" : "uuid",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "User" : {
+      "id" : "User",
+      "properties" : {
+        "id" : {
+          "type" : "string",
+          "format" : "uuid"
+        },
+        "forename" : {
+          "type" : "string"
+        },
+        "surname" : {
+          "type" : "string"
+        },
+        "street" : {
+          "type" : "string"
+        },
+        "zip" : {
+          "type" : "string"
+        },
+        "city" : {
+          "type" : "string"
+        },
+        "state" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "mobile" : {
+          "type" : "string"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "pictureSmall" : {
+          "type" : "string"
+        },
+        "pictureMedium" : {
+          "type" : "string"
+        },
+        "pictureLarge" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

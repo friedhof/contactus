@@ -1,0 +1,52 @@
+/*
+ * Contactus
+ * Copyright (C) 2016-2018 Marcus Fihlon
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+plugins {
+    id 'net.ltgt.apt' version '0.10'
+}
+
+group 'ch.teko.contactus'
+version '1.4'
+
+apply plugin: 'war'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+war {
+    archiveName 'contactus.war'
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.0'
+    apt 'org.projectlombok:lombok:1.18.0'
+    providedCompile 'javax:javaee-api:7.0'
+    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.3'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

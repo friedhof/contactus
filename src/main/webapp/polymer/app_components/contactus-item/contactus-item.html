@@ -1,0 +1,44 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html" />
+<link rel="import" href="../../bower_components/paper-card/paper-card.html" />
+
+<dom-module id="contactus-item">
+
+    <template>
+        <style>
+            paper-card {
+                margin: 1em;
+                padding: 0.5em;
+                width: 250px;
+                overflow: scroll;
+                --paper-card-header-image-text: {
+                    color: white;
+                    text-shadow: 2px 2px black;
+                    text-transform: capitalize;
+                };
+            }
+        </style>
+
+        <paper-card heading="[[contact.surname]], [[contact.forename]]"
+                    image="[[contact.pictureLarge]]">
+            <p>
+                [[contact.street]]<br/>
+                [[contact.zip]] [[contact.city]]
+            </p>
+            <p>
+                <a href="mailto:[[contact.email]]">[[contact.email]]</a><br/>
+                <a href="tel:[[contact.mobile]]">[[contact.mobile]]</a>
+            </p>
+        </paper-card>
+    </template>
+
+    <script>
+        Polymer({
+            is: "contactus-item",
+            properties: {
+                contact: {
+                    type: Object
+                }
+            }
+        });
+    </script>
+</dom-module>

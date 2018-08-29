@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Contactus with Bootstrap and jQuery</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"/>
+        <style>
+            div.card {
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+            i.fa-trash {
+                cursor: pointer;
+            }
+            footer {
+                margin: 15px;
+            }
+        </style>
+        <script>
+            // add a contact the website
+            function addContact(contact) {
+
+                // check for an image
+                var image = contact.pictureLarge === undefined || contact.pictureLarge === null
+                    ? "https://placeholdit.imgix.net/~text?txtsize=20&txt=Placeholder&w=128&h=128"
+                    : contact.pictureLarge;
+
+                // append the HTML to the DIV
+                $("#users").append(
+
+                    '<div id="user_' + contact.id + '" class="col-xs-12 col-sm-6 col-md-4">' +
+                    '<div class="card">' +
+                    '<div class="card-header">' +
+                    '<i class="fas fa-trash float-right" data-id="' + contact.id + '"></i>' +
+                    contact.surname + ', ' + contact.forename +
+                    '</div>' +
+                    '<div class="card-body">' +
+                    '<div class="float-right">' +
+                    '<img src="' + image + '" class="rounded-circle" />' +
+                    '</div>' +
+                    '<address>' + contact.street + '<br/>' + contact.zip + ' ' + contact.city + '</address>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                );
+
+                // add an event listener to the trash icon
+                $("i.fa-trash[data-id=" + contact.id + "]").click(removeContact);
+            }
+
+            function removeContact(event) {
+                var id = $(event.target).attr("data-id");
+                $.ajax("/api/users/" + id, {
+                    method: "DELETE",
+                    success: function() {
+                        $("#user_" + id).remove();
+                    },
+                    error: function() {
+                        alert("Something was wrong – please fix me!");
+                    }
+                });
+            }
+
+            $(function() {
+                // load contacts from server
+                $.getJSON("/api/users", function(data) {
+                    // add each contact to the page
+                    $.each(data, function (index, user) {
+                        addContact(user);
+                    });
+                });
+
+                // add an event listener to add contact button
+                $("#add-contact-button").click(function() {
+
+                    // create user object based on form data
+                    var user = {
+                        "forename" : $("#forename").val(),
+                        "surname"  : $("#surname").val(),
+                        "street"   : $("#street").val(),
+                        "zip"      : $("#zip").val(),
+                        "city"     : $("#city").val()
+                    };
+
+                    // send the AJAX request with the JSON encoded user object
+                    $.ajax("/api/users", {
+                        method: "POST",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify(user),
+                        complete: function(jqXHR, textStatus) {
+
+                            // check for status code 201 CREATED
+                            if (jqXHR.status === 201) {
+
+                                // close dialog and reset form
+                                $('#add-contact-dialog').modal('hide');
+                                $("#add-contact-form")[0].reset();
+
+                                // extract id from location header
+                                var location = jqXHR.getResponseHeader("Location");
+                                user.id = location.substring(location.lastIndexOf("/") + 1);
+
+                                // finally show the user on the page
+                                addContact(user);
+
+                                // there must be an error
+                            } else {
+                                alert("Something was wrong – please fix me!");
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <img class="float-right" src="cactus.png" alt="Logo"/>
+                <h1>Contactus</h1>
+                <h2>Bootstrap and jQuery</h2>
+            </div>
+
+            <div id="users" class="row">
+            </div>
+
+            <div class="row">
+                <footer>
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#add-contact-dialog">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </footer>
+                <div class="modal fade" id="add-contact-dialog" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add a new contact</h4>
+                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="add-contact-form" action="#">
+                                    <div class="form-group">
+                                        <label for="forename">Forename</label>
+                                        <input type="text" class="form-control" id="forename" name="forename" placeholder="forename" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="surname">Surname</label>
+                                        <input type="text" class="form-control" id="surname" name="surname" placeholder="surname" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="street">Street</label>
+                                        <input type="text" class="form-control" id="street" name="street" placeholder="street" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zip">ZIP</label>
+                                        <input type="text" class="form-control" id="zip" name="zip" placeholder="zip" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="city" />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button id="add-contact-button" type="button" class="btn btn-primary">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+<link rel="import" href="../../bower_components/paper-styles/typography.html"/>
+<link rel="import" href="../../bower_components/paper-material/paper-material.html"/>
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html"/>
+<link rel="import" href="../contactus-item/contactus-item.html" />
+
+<dom-module id="contactus-app">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            * {
+                font-family: 'Roboto', sans-serif;
+            }
+            paper-material {
+                margin: 2em;
+                padding: 0.5em 1em 0.5em 1em;
+            }
+        </style>
+
+        <paper-material elevation="5">
+            <h1>Contactus</h1>
+            <h2>Polymer</h2>
+
+            <iron-ajax auto url="/api/users" handle-as="json" last-response="{{ajaxResponse}}"></iron-ajax>
+            <template is="dom-repeat" items="[[ajaxResponse]]">
+                <contactus-item contact="[[item]]"></contactus-item>
+            </template>
+        </paper-material>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'contactus-app'
+        });
+    </script>
+</dom-module>
