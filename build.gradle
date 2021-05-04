@@ -16,34 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-}
-
 plugins {
-    id 'net.ltgt.apt' version '0.10'
+    id 'war'
 }
-
-group 'ch.teko.contactus'
-version '1.4'
-
-apply plugin: 'war'
 
 repositories {
     jcenter()
     mavenCentral()
 }
 
+group 'ch.teko.contactus'
+version '1.4'
+
 war {
-    archiveName 'contactus.war'
+    archiveFileName = 'contactus.war'
 }
 
 dependencies {
     providedCompile 'javax:javaee-api:7.0'
-    compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.3'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.3'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
