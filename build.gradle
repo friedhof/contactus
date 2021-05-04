@@ -42,8 +42,8 @@ war {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.0'
-    apt 'org.projectlombok:lombok:1.18.0'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    apt 'org.projectlombok:lombok:1.18.20'
     providedCompile 'javax:javaee-api:7.0'
     compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.3'
 }
