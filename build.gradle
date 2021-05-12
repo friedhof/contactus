@@ -33,7 +33,7 @@ war {
 
 dependencies {
     providedCompile 'javax:javaee-api:7.0'
-    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.3'
+    implementation 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.12.3'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.20'
